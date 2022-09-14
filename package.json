@@ -1,0 +1,30 @@
+{
+  "name": "todolist-mysql",
+  "version": "1.0.0",
+  "description": "Training app to learn MySql and Node.Js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:Greens1593/ToDoList-MySQL.git"
+  },
+  "author": "Mikle Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Greens1593/ToDoList-MySQL/issues"
+  },
+  "homepage": "https://github.com/Greens1593/ToDoList-MySQL#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.3",
+    "vue": "^3.2.36"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
