@@ -47,5 +47,26 @@ module.exports = {
         }catch(e){
             throw new Error('Tile is required')
         }
+    },
+    async completeTodo({id}){
+        try{
+            const todo = await Todo.findByPk(id)
+            todo.done = true
+            await todo.save()
+            return todo
+        }catch(e){
+            throw new Error('Id is required')
+        }
+    },
+    async deleteTodo({id}){
+        try{
+            const todos = await Todo.findAll({
+                where: {id}
+            })
+            await todos[0].destroy()
+            return true
+        }catch(e){
+            throw new Error('Id is required')
+        }
     }
 }

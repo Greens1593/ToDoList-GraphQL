@@ -12,7 +12,7 @@ new Vue({
       const query = `
         query {
           getTodos {
-            id title createdAt updatedAt
+            id title createdAt updatedAt done
           }
         }
       `  
@@ -44,7 +44,7 @@ new Vue({
         `
         fetch('/graphql', {
           method: 'post',
-          headers: {'Content-type': 'application/json',
+          headers: {'Content-Type': 'application/json',
           'Accept': 'application/json'},
           body: JSON.stringify({query})
         })
@@ -58,8 +58,16 @@ new Vue({
           
       },
       removeTodo(id) {
-        fetch('/api/todo/' + id,{
-          method: 'delete'
+        const query =`
+          mutation {
+            deleteTodo(id: "${id}")
+          }
+        `
+        fetch('/graphql',{
+          method: 'post',
+          headers: {'Content-Type': 'application/json',
+          'Accept': 'application/json'},
+          body: JSON.stringify({query})
         })
         .then(() => {
           this.todos = this.todos.filter(t => t.id !== id)
@@ -67,15 +75,23 @@ new Vue({
         .catch(e => console.log(e))
       },
       completeTodo(id){
-        fetch('/api/todo/' + id, {
-          method: 'put',
-          headers: {'Content-type': 'application/json'},
-          body: JSON.stringify({done: true})
+        const query = `
+        mutation {
+          completeTodo(id: "${id}") {
+            updatedAt
+          }
+        }
+        `
+        fetch('/graphql', {
+          method: 'post',
+          headers: {'Content-type': 'application/json',
+          'Accept': 'application/json'},
+          body: JSON.stringify({query})
         })
         .then(res => res.json())
-        .then((todo) => {
-          const index = this.todos.findIndex(t => t.id === todo.id)
-          this.todos[index].updatedAt = todo.updatedAt
+        .then(res => {
+          const index = this.todos.findIndex(t => t.id === id)
+          this.todos[index].updatedAt = res.data.completeTodo.updatedAt
         })
         .catch(e => console.log(e))
       }
